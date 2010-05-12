@@ -68,8 +68,11 @@ class Command(BaseCommand):
                           err_log=options.get('stderr_log', '/dev/null'))
 
         if options.get('pid_file', ''):
-            with open(options['pid_file'], 'w') as f:
+            f = open(options['pid_file'],'w')
+            try:
                 f.write('%d\n' % os.getpid())
+            finally:
+                f.close()
 
         if len(queue_names) == 1:
             self.receive(queue_names[0])
